@@ -18,7 +18,7 @@ dy = 0
 def grid():
     for i in range(0,height,side):
         for j in range(0,width,side):
-            canvas.create_rectangle(i,j,i+side,j+side,fill="white")
+            canvas.create_rectangle(i,j,i+side,j+side,fill="white",activefill="black")
 
 
 def generate():
