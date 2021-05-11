@@ -83,6 +83,7 @@ def show_robots():
     robots.append(green)
     robots.append(yellow)
 
+
 def show_target():
     x = int(target[0])
     y = int(target[1])
@@ -90,7 +91,7 @@ def show_target():
 
  
 def show_targets():
-    pass
+    pass 
     """Création des cibles + définir leur position """
     global targets, pos_target
 
