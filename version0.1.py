@@ -87,45 +87,18 @@ def show_robots():
 def show_target():
     x = int(target[0])
     y = int(target[1])
-    target_b = canvas.create_rectangle(x*side+10, y*side+10, x*side+30, y*side+30, fill="blue")
+    target_b = canvas.create_rectangle(x*side+10, y*side+10, x*side+30, y*side+30, fill="blue")  
+    x = int(pos_robot[0][0])+2
+    y = int(pos_robot[0][1])+1
+    target_r = canvas.create_rectangle(x*side+10, y*side+10, x*side+30, y*side+30, fill="red")
+    x = int(pos_robot[0][0])
+    y = int(pos_robot[0][1])-10
+    target_y = canvas.create_rectangle(x*side+10, y*side+10, x*side+30, y*side+30, fill="yellow")
+    x = int(pos_robot[0][0])+9
+    y = int(pos_robot[0][1])-10
+    target_g = canvas.create_rectangle(x*side+10, y*side+10, x*side+30, y*side+30, fill="green")
 
  
-def show_targets():
-    pass 
-    """Création des cibles + définir leur position """
-    global targets, pos_target
-
-    n = random.randrange(40, 600, 40)
-    m = random.randrange(40, 600, 40)
-
-    x = random.randrange(40, 600, 40)
-    y = random.randrange(40, 600, 40)
-
-    u = random.randrange(40, 600, 40)
-    v = random.randrange(40, 600, 40)
-
-    a = random.randrange(40, 600, 40)
-    b = random.randrange(40, 600, 40)
-
-    Blue = canvas.create_rectangle(n+5, m+5, n+35, m+35, fill="blue")
-    Red = canvas.create_rectangle(x+5, y+5, x+35, y+35, fill="red")
-    Yellow = canvas.create_rectangle(u+5, v+5, u+35, v+35, fill="yellow")
-    Green = canvas.create_rectangle(a+5, b+5, a+35, b+35, fill="green")
-
-    position_bleu = (n//side, m//side)
-    position_red = (x//side, y//side)
-    position_yellow = (u//side, v//side)
-    position_green = (a/side, b//side)
-
-    pos_target.append(position_bleu)
-    pos_target.append(position_red)
-    pos_target.append(position_yellow)
-    pos_target.append(position_green)
-
-    targets.append(Blue)
-    targets.append(Red)
-    targets.append(Yellow)
-    targets.append(Green)
 
     
 
