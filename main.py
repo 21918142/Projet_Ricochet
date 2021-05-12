@@ -4,7 +4,7 @@
   #(OK) # show_target -> qui affiche la cible 
   #(OK) # show_robots -> qui affiche les robots 
   #(OK) # keyboard -> qui permet de se déplacer (verticalement et horizontalement)
-  #(OK) # deplacement -> qui permet de déplacer un robot lorsqu'on clique dessus
+        # deplacement -> qui permet de déplacer un robot lorsqu'on clique dessus
         # maj_pos -> qui permet de réinisialiser la position du robot 
         # clr_mvmt -> qui permet d'affichet les possibles deplacements d'un robot lorsque l'on clique dessus
   #(OK) # click -> click

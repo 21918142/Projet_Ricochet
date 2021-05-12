@@ -18,7 +18,7 @@ dy = 0
 def grid():
     for i in range(0,height,side):
         for j in range(0,width,side):
-            canvas.create_rectangle(i,j,i+side,j+side,fill="white",activefill="black")
+            canvas.create_rectangle(i,j,i+side,j+side,fill="#B3B191",activefill="brown")
 
 
 def generate():
@@ -98,9 +98,6 @@ def show_target():
     y = int(pos_robot[0][1])-10
     target_g = canvas.create_rectangle(x*side+10, y*side+10, x*side+30, y*side+30, fill="green")
 
- 
-
-    
 
 def stop(robot,stop_x,stop_y):
     canvas.move(robot, stop_x, stop_y)
@@ -116,7 +113,6 @@ def collision_blue():
 
 def move_blue():
     global dx,dy,stop_move_b
-
     canvas.move(robots[0], dx, dy)
     stop_move_b = canvas.after(1, move_blue)
     if collision_blue():
