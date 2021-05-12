@@ -106,24 +106,108 @@ def stop(robot,stop_x,stop_y):
     canvas.move(robot, stop_x, stop_y)
     return robot, stop_x, stop_y
 
-def collision():
+def collision_blue():
     coord = canvas.coords(robots[0])
-    c = canvas.find_overlapping(*coord)
+    c = canvas.find_overlapping(*coord)   
     for id in c:
         color = canvas.itemcget(id, "fill")
         if color == "red" or color == "black" or color =="green" or color=="yellow":
             return True
 
+def move_blue():
+    global dx,dy,stop_move_b
 
-   
-def deplacement():
-    global dx,dy
     canvas.move(robots[0], dx, dy)
-    canvas.after(1, deplacement)
-    if collision():
+    stop_move_b = canvas.after(1, move_blue)
+    if collision_blue():
         stop(robots[0], -dx, -dy)
         dx=0
-        dy=0     
+        dy=0
+
+def collision_red():
+    coord = canvas.coords(robots[1])
+    c = canvas.find_overlapping(*coord)   
+    for id in c:
+        color = canvas.itemcget(id, "fill")
+        if color == "blue" or color == "black" or color =="green" or color=="yellow":
+            return True
+
+def move_red():
+    global dx,dy,stop_move_r
+    canvas.move(robots[1], dx, dy)
+    stop_move_r = canvas.after(1, move_red)
+    if collision_red():
+        stop(robots[1], -dx, -dy)
+        dx=0
+        dy=0
+
+def collision_green():
+    coord = canvas.coords(robots[2])
+    c = canvas.find_overlapping(*coord)   
+    for id in c:
+        color = canvas.itemcget(id, "fill")
+        if color == "blue" or color == "black" or color =="red" or color=="yellow":
+            return True
+
+def move_green():
+    global dx,dy, stop_move_g
+    canvas.move(robots[2], dx, dy)
+    stop_move_g = canvas.after(1, move_green)
+    if collision_green():
+        stop(robots[2], -dx, -dy)
+        dx=0
+        dy=0
+
+def collision_yellow():
+    coord = canvas.coords(robots[3])
+    c = canvas.find_overlapping(*coord)   
+    for id in c:
+        color = canvas.itemcget(id, "fill")
+        if color == "blue" or color == "black" or color =="green" or color=="red":
+            return True
+
+def move_yellow():
+    global dx,dy, stop_move_y
+    canvas.move(robots[3], dx, dy)
+    stop_move_y = canvas.after(1, move_yellow)
+    if collision_yellow():
+        stop(robots[3], -dx, -dy)
+        dx=0
+        dy=0
+
+def click(event):
+    global get_pos
+    """ Permet d'efectuer le deplacement d'1 robot quand on le clique dessus,
+    Et restart quand on clique sur le carré milieu """
+    get_pos = (event.x//40, event.y//40)
+    x1,y1,x2,y2 = canvas.coords(robots[0])
+    u1,v1,u2,v2 = canvas.coords(robots[1])
+    i1,j1,i2,j2 = canvas.coords(robots[2])
+    n1,m1,n2,m2 = canvas.coords(robots[3])
+
+    if get_pos == (x1//40, y1//40):
+        move_blue()
+        canvas.after_cancel(stop_move_r)
+        canvas.after_cancel(stop_move_g)
+        canvas.after_cancel(stop_move_y)
+
+    elif get_pos == (u1//40, v1//40):
+        move_red()
+        canvas.after_cancel(stop_move_b)
+        canvas.after_cancel(stop_move_g)
+        canvas.after_cancel(stop_move_y)
+
+    elif get_pos == (i1//40, j1//40):
+        move_green()
+        canvas.after_cancel(stop_move_b)
+        canvas.after_cancel(stop_move_r)
+        canvas.after_cancel(stop_move_y)
+        
+    elif get_pos == (n1//40, m1//40):
+        move_yellow()
+        canvas.after_cancel(stop_move_b)
+        canvas.after_cancel(stop_move_r)
+        canvas.after_cancel(stop_move_g)
   
 
 def keyboard(event):
@@ -140,18 +224,7 @@ def keyboard(event):
         dy = 0
     elif key == "Right":
         dx = 20
-        dy = 0
-
-
-
-def click(event):
-    global get_pos
-    get_pos = (event.x//40, event.y//40)
-    print(get_pos)
-
-    
-
-    
+        dy = 0    
 
 root = tk.Tk()
 
@@ -172,7 +245,7 @@ generate()
 show_robots()
 show_target()
 show_walls()
-deplacement()
+
 
 canvas.bind("<1>", click)
 canvas.bind_all("<Key>", keyboard)
