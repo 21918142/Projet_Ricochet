@@ -23,6 +23,10 @@
         # width = 640
         # size = 16
         # cote = 40 (HEIGHT//16)
+        # cpt_b = compteur du nombre de déplacements du robot bleu
+        # cpt_g = compteur du nombre de déplacements du robot vert
+        # cpt_r = compteur du nombre de déplacements du robot rouge
+        # cpt_y = compteur du nombre de déplacements du robot jaune
 #variable :
         # tableau = None
         # target = None
