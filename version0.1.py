@@ -20,23 +20,11 @@ def grid():
         for j in range(0, width, side):
             color = "#B3B191"
             canvas.create_rectangle(i,j,i+side,j+side,fill=color,activefill="brown")
-            for i in range(side*7, side*9, side):
-                for j in range(side*7, side*9, side):
-                    color = "black"
-                    canvas.create_rectangle(i,j,i+side,j+side,fill=color,activefill="brown")
+    for i in range(side*7, side*9, side):
+        for j in range(side*7, side*9, side):
+            color = "black"
+            canvas.create_rectangle(i,j,i+side,j+side,fill=color,activefill="brown")
             
-
-    """for i in range(0,height,side):
-        for j in range(0,width,side):
-            canvas.create_rectangle(i,j,i+side,j+side,fill=color,activefill="brown")"""
-    """for i in range(0, height, side):
-        for j in range(0, height, side):
-            if (320<i<360) and (320<j<360) : 
-                color = "black"
-            elif (320<= i >=360) and (320<= j >=360) : 
-                color = "#B3B191"
-            canvas.create_rectangle(i,j,i+side,j+side,fill=color,activefill="brown")"""
-
 
 def generate():
     """ affiche walls + pos target + pos robots"""
