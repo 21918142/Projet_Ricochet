@@ -5,17 +5,18 @@
   #(OK) # show_robots -> qui affiche les robots 
   #(OK) # keyboard -> qui permet de se déplacer (verticalement et horizontalement)
         # deplacement -> qui permet de déplacer un robot lorsqu'on clique dessus
-        # maj_pos -> qui permet de réinisialiser la position du robot 
         # clr_mvmt -> qui permet d'affichet les possibles deplacements d'un robot lorsque l'on clique dessus
   #(OK) # click -> click
   #(OK) # position -> qui permet de return une position d'une case  
-        # win -> qui permet d'afficher un message lorsque l'un des robots gagne 
+  #(OK) # win -> qui permet d'afficher un message lorsque l'un des robots gagne
+  #(OK) # continues -> qui permet d'afficher un message 
         # restart -> qui permet de recommencer une partie 
-        # cpt -> qui permet de compter le nombre de deplacements qu'un robot a fait 
+  #(OK) # cpt -> qui permet de compter le nombre de deplacements qu'un robot a fait 
         # save -> qui permet de sauvegarder une partie
-        # return -> qui permet de revenir en arriere (d'annuler son deplcement)
+        # save_score -> qui permet de sauvegarder les scores
   #(OK) # obstacle -> qui permet d'arreter le robot lorsqu'il est devant un obstacle 
-        # Unfo -> qui permet de revenir en arrière 
+        # Undo -> qui permet de revenir en arrière
+        # Second objectif -> ... 
 
 
 #constantes :
@@ -32,6 +33,8 @@
         # target = None
         # pos_robot = []
         # robots = []
+        # dx, dy
+        # pos_target
 #bouton :
         # btn_save
         # btn_load
