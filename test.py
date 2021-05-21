@@ -1,13 +1,15 @@
+# Import des librairies
 import tkinter as tk
+from tkinter.constants import BOTH
 import tkinter.messagebox as tkm
 
-# Constante
+# Constantes
 height = 640
 width  = 640
 size = 16
 side = height // size
 
-# Variable global
+# Variables globales
 table = None
 target = None
 pos_target = []
@@ -16,6 +18,11 @@ robots = []
 dx = 0
 dy = 0
 cpt = 0
+bot = 0
+
+#liste
+coord_robot = []
+bot_color = ['blue', 'red', 'green', 'yellow' ]
 
 ##########################  Definition ########################## 
 
@@ -222,7 +229,7 @@ def move_yellow():
         dy=0
 
 def click(event):
-    global get_pos
+    global get_pos, bot
     """ Permet d'efectuer le deplacement d'1 robot quand on le clique dessus,
     Et restart quand on clique sur le carré milieu """
     get_pos = (event.x//40, event.y//40)
@@ -236,48 +243,64 @@ def click(event):
         canvas.after_cancel(stop_move_r)
         canvas.after_cancel(stop_move_g)
         canvas.after_cancel(stop_move_y)
+        bot = 0
 
     elif get_pos == (u1//40, v1//40):
         move_red()
         canvas.after_cancel(stop_move_b)
         canvas.after_cancel(stop_move_g)
         canvas.after_cancel(stop_move_y)
+        bot = 1
 
     elif get_pos == (i1//40, j1//40):
         move_green()
         canvas.after_cancel(stop_move_b)
         canvas.after_cancel(stop_move_r)
         canvas.after_cancel(stop_move_y)
+        bot = 2
         
     elif get_pos == (n1//40, m1//40):
         move_yellow()
         canvas.after_cancel(stop_move_b)
         canvas.after_cancel(stop_move_r)
         canvas.after_cancel(stop_move_g)
+        bot = 3
   
 def keyboard(event):
     global dx, dy, cpt
     key = event.keysym
     if key == "Up":
+        stockage_coord()
         dx = 0
         dy = -20
         cpt += 1
         cpt_move.config(text="Move = "+ str(cpt))
     elif key == "Down":
+        stockage_coord()
         dx = 0
         dy = 20
         cpt += 1
         cpt_move.config(text="Move = "+ str(cpt))
     elif key == "Left":
+        stockage_coord()
         dx = -20
         dy = 0
         cpt += 1
         cpt_move.config(text="Move = "+ str(cpt))
     elif key == "Right":
+        stockage_coord()
         dx = 20
         dy = 0
         cpt += 1 
         cpt_move.config(text="Move = "+ str(cpt))
+    
+def stockage_coord():
+    '''stocke les coord du robot'''
+    global a, b, c, d
+    a, b, c, d = canvas.coords(robots[bot])
+    coord_robot.append([a, b, c, d])
+    print(coord_robot)
+
 
 ###### Message #######
 
@@ -300,7 +323,30 @@ def load():
     pass
 
 def undo():
-    pass
+    global robots
+    if canvas.coords(robots[bot]) != coord_robot[0]:
+        if bot == 0:                  
+            canvas.delete(robots[bot])
+            robots[bot] = canvas.create_oval(coord_robot[-1][0], coord_robot[-1][1],
+                    coord_robot[-1][2], coord_robot[-1][3], fill = bot_color[0])
+            coord_robot.remove(coord_robot[-1])
+        elif bot == 1:
+            canvas.delete(robots[bot])
+            robots[bot] = canvas.create_oval(coord_robot[-1][0], coord_robot[-1][1],
+                    coord_robot[-1][2], coord_robot[-1][3], fill = bot_color[1])
+            coord_robot.remove(coord_robot[-1])
+        elif bot == 2:
+            canvas.delete(robots[bot])
+            robots[bot] = canvas.create_oval(coord_robot[-1][0], coord_robot[-1][1],
+                    coord_robot[-1][2], coord_robot[-1][3], fill = bot_color[2])
+            coord_robot.remove(coord_robot[-1])
+        elif bot == 3:
+            canvas.delete(robots[bot])
+            robots[bot] = canvas.create_oval(coord_robot[-1][0], coord_robot[-1][1],
+                    coord_robot[-1][2], coord_robot[-1][3], fill = bot_color[3])
+            coord_robot.remove(coord_robot[-1])
+    else:
+        pass
 
 def save_score():
     pass
@@ -318,11 +364,13 @@ root = tk.Tk()
 canvas = tk.Canvas(root,height=height, width=850)
 bouton = tk.Button(root, text="Génération terrain")
 cpt_move = tk.Label(root, text="Move = "+ str(cpt), font=("Marker Felt", 30))
+b_undo = tk.Button(root, text='undo', command=undo, width=10, activebackground="grey")
 
 #Placement des widgets
 canvas.grid(columnspan=4, rowspan=6)
 bouton.grid()
 cpt_move.grid(column=3, row=0)
+b_undo.grid(column=3, row=1)
 
 grid()
 generate()
