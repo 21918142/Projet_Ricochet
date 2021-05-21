@@ -15,9 +15,8 @@
         # save -> qui permet de sauvegarder une partie
         # save_score -> qui permet de sauvegarder les scores
   #(OK) # obstacle -> qui permet d'arreter le robot lorsqu'il est devant un obstacle 
-        # Undo -> qui permet de revenir en arrière
+  #(OK) # Undo -> qui permet de revenir en arrière
         # Second objectif -> ... 
-
 
 #constantes :
         # height = 640
@@ -28,13 +27,20 @@
         # cpt_g = compteur du nombre de déplacements du robot vert
         # cpt_r = compteur du nombre de déplacements du robot rouge
         # cpt_y = compteur du nombre de déplacements du robot jaune
-#variable :
+
+#variables :
         # tableau = None
         # target = None
         # pos_robot = []
         # robots = []
         # dx, dy
         # pos_target
+        # bot = 0
+
+#listes :
+        # coord_robot = []
+        # bot_color = ['blue', 'red', 'green', 'yellow' ]
+
 #bouton :
         # btn_save
         # btn_load
