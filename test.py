@@ -13,6 +13,7 @@
 import tkinter as tk
 from tkinter.constants import BOTH
 import tkinter.messagebox as tkm
+from types import MethodWrapperType
 
 # Constantes
 height = 640
@@ -30,6 +31,7 @@ dx = 0
 dy = 0
 cpt = 0
 bot = 0
+high_score = 0
 
 # Listes
 coord_robot = []
@@ -332,11 +334,28 @@ def continues():
 
 #------------------------------------ Autre ------------------------------------#
 
-def save():
-    pass
+
+def sauvegarde():
+    fic = open("saverobot", "w")
+    for i in range(4):
+        print(type(pos_target[i]))
+        print(type(robots[i]))
+        fic.write(str(pos_target[i]) + "\n")
+        fic.write(str(robots[i]) + "\n")
 
 def load():
-    pass
+    fic = open("saverobot", "r")
+    c = 0
+    post = 0
+    rob = 0
+    for ligne in fic:
+        if not c % 2:
+            pos_target[post] = int(ligne)
+            post += 1
+        else :
+            robots[rob] = int(ligne)
+            rob += 1
+        c += 1
 
 def undo():
     """Annule les derniers déplacements du robot"""
@@ -365,11 +384,34 @@ def undo():
     else:
         pass
 
-def save_score():
-    pass
+def save_score_b():
+    with open("score_blue.txt", "a") as file_score:
+        file_score.write(str(cpt))
+        file_score.write(" ")
+                
+def save_score_r():
+    with open("score_red.txt", "a") as file_score:
+        file_score.write(str(cpt))
+        file_score.write(" ")
 
-def show_best_score():
-    pass
+def save_score_g():
+    with open("score_green.txt", "a") as file_score:
+        file_score.write(str(cpt))
+        file_score.write(" ") 
+
+def save_score_y():
+    with open("score_yellow.txt", "a") as file_score:
+        file_score.write(str(cpt))
+        file_score.write(" ")
+
+
+def show_high_score():
+    global high_score
+    with open("score_blue.txt", "r") as best_score:
+        for scores in best_score:
+            scores_rect = scores.split()
+            high_score = max(scores_rect)
+            print(high_score)
 
 def restart():
     pass
@@ -380,15 +422,18 @@ root = tk.Tk()
 
 # Creation des widgets
 canvas = tk.Canvas(root,height=height, width=850)
-bouton = tk.Button(root, text="Génération terrain")
+bouton = tk.Button(root, text="save", command=sauvegarde)
+bouton1 = tk.Button(root, text="load", command=load)
 cpt_move = tk.Label(root, text="Move = "+ str(cpt), font=("Marker Felt", 30))
 b_undo = tk.Button(root, text='undo', command=undo, width=10, activebackground="grey")
 
 # Placement des widgets
 canvas.grid(columnspan=4, rowspan=6)
 bouton.grid()
+bouton1.grid()
 cpt_move.grid(column=3, row=0)
 b_undo.grid(column=3, row=1)
+
 
 grid()
 generate()
@@ -401,26 +446,3 @@ canvas.bind("<1>", click)
 canvas.bind_all("<Key>", keyboard)
 
 root.mainloop()
-
-
-def sauvegarde():
-    fic = open("saverobot", "w")
-    for i in range(4):
-        print(type(pos_target[i]))
-        print(type(robots[i]))
-        fic.write(str(pos_target[i]) + "\n")
-        fic.write(str(robots[i]) + "\n")
-
-def load():
-    fic = open("saverobot", "r")
-    c = 0
-    post = 0
-    rob = 0
-    for ligne in fic:
-        if not c % 2:
-            pos_target[post] = int(ligne)
-            post += 1
-        else :
-            robots[rob] = int(ligne)
-            rob += 1
-        c += 1
