@@ -401,3 +401,26 @@ canvas.bind("<1>", click)
 canvas.bind_all("<Key>", keyboard)
 
 root.mainloop()
+
+
+def sauvegarde():
+    fic = open("saverobot", "w")
+    for i in range(4):
+        print(type(pos_target[i]))
+        print(type(robots[i]))
+        fic.write(str(pos_target[i]) + "\n")
+        fic.write(str(robots[i]) + "\n")
+
+def load():
+    fic = open("saverobot", "r")
+    c = 0
+    post = 0
+    rob = 0
+    for ligne in fic:
+        if not c % 2:
+            pos_target[post] = int(ligne)
+            post += 1
+        else :
+            robots[rob] = int(ligne)
+            rob += 1
+        c += 1
