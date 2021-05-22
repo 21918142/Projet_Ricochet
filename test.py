@@ -1,3 +1,14 @@
+############################################
+# Groupe MPCI 6
+# Kevin SU
+# Brice AUGUSTIN
+# Lilya LAHJAILY
+# Zinaida BENAOUDIA
+# Celine DJADEL
+# https://github.com/21918142/Projet_Ricochet
+#############################################
+
+
 # Import des librairies
 import tkinter as tk
 from tkinter.constants import BOTH
@@ -9,7 +20,7 @@ width  = 640
 size = 16
 side = height // size
 
-# Variables globales
+# Variables globales 
 table = None
 target = None
 pos_target = []
@@ -20,14 +31,15 @@ dy = 0
 cpt = 0
 bot = 0
 
-#liste
+# Listes
 coord_robot = []
 bot_color = ['blue', 'red', 'green', 'yellow' ]
 
-##########################  Definition ########################## 
+# Fonctions
+#------------------------------------ Plateau ------------------------------------#
 
-###### Plateau ######
 def grid():
+    """Affiche un quadrillage sur le canvas"""
     for i in range(0, height, side):
         for j in range(0, width, side):
             color = "#B3B191"
@@ -38,7 +50,7 @@ def grid():
             canvas.create_rectangle(i,j,i+side,j+side,fill=color,activefill="brown")
             
 def generate():
-    """ affiche walls + pos target + pos robots"""
+    """Affiche walls + pos target + pos robots"""
     global table, target, pos_robot
     file = open("Board.txt", "r")
     nb_line = 0
@@ -68,6 +80,7 @@ def generate():
         nb_line +=1
 
 def show_walls():
+    """Affiche les murs"""
     for i in range(len(table)):
         for j in range(len(table[i])):
             if table[i][j] == "2": # -
@@ -77,6 +90,7 @@ def show_walls():
                 canvas.create_line(i//2*side, j*side, i//2*side, (j+1)*side, fill="black", width=5)
 
 def show_robots():
+    """Affiche les quatres robots"""
     global robot
     x = int(pos_robot[0][0])
     y = int(pos_robot[0][1])
@@ -100,6 +114,7 @@ def show_robots():
     robots.append(yellow)
 
 def show_target():
+    """Affiche les quatres cibles"""
     x = int(target[0])
     y = int(target[1])
     target_b = canvas.create_rectangle(x*side+10, y*side+10, x*side+30, y*side+30, fill="blue")  
@@ -118,7 +133,7 @@ def show_target():
     pos_target.append(target_g)
     pos_target.append(target_y)
 
-###### Deplacement ######
+#------------------------------------ Déplacements ------------------------------------
 
 def stop(robot,stop_x,stop_y):
     canvas.move(robot, stop_x, stop_y)
@@ -230,8 +245,8 @@ def move_yellow():
 
 def click(event):
     global get_pos, bot
-    """ Permet d'efectuer le deplacement d'1 robot quand on le clique dessus,
-    Et restart quand on clique sur le carré milieu """
+    """Permet d'effectuer le deplacement d'un robot quand on clique dessus et
+       restart quand on clique sur le carré au milieu"""
     get_pos = (event.x//40, event.y//40)
     x1,y1,x2,y2 = canvas.coords(robots[0])
     u1,v1,u2,v2 = canvas.coords(robots[1])
@@ -295,26 +310,27 @@ def keyboard(event):
         cpt_move.config(text="Move = "+ str(cpt))
     
 def stockage_coord():
-    '''stocke les coord du robot'''
+    '''Stocke les coordonnées du robot'''
     global a, b, c, d
     a, b, c, d = canvas.coords(robots[bot])
     coord_robot.append([a, b, c, d])
     print(coord_robot)
 
-
-###### Message #######
+#------------------------------------ Message ------------------------------------#
 
 def win():
+    """Affiche un message lorsque le joueur a gagné"""
     tkm.showinfo("Félicitation", "Vous avez gagné !\nMouvement: "+ str(cpt))
 
 def continues():
+    """Demande au joueur s'il veut continuer de jouer"""
     message = tkm.askquestion("Félicitation", "Continue de jouer ?")
     if message == "yes":
         pass # save score
     if message == "no":
         root.destroy()
 
-###### Autre #######
+#------------------------------------ Autre ------------------------------------#
 
 def save():
     pass
@@ -323,6 +339,7 @@ def load():
     pass
 
 def undo():
+    """Annule les derniers déplacements du robot"""
     global robots
     if canvas.coords(robots[bot]) != coord_robot[0]:
         if bot == 0:                  
@@ -357,7 +374,8 @@ def show_best_score():
 def restart():
     pass
 
-############### Programme principal ############### 
+#------------------------------------ Programme principal ------------------------------------#
+
 root = tk.Tk()
 
 # Creation des widgets
@@ -366,7 +384,7 @@ bouton = tk.Button(root, text="Génération terrain")
 cpt_move = tk.Label(root, text="Move = "+ str(cpt), font=("Marker Felt", 30))
 b_undo = tk.Button(root, text='undo', command=undo, width=10, activebackground="grey")
 
-#Placement des widgets
+# Placement des widgets
 canvas.grid(columnspan=4, rowspan=6)
 bouton.grid()
 cpt_move.grid(column=3, row=0)
@@ -381,6 +399,5 @@ show_walls()
 # Autre
 canvas.bind("<1>", click)
 canvas.bind_all("<Key>", keyboard)
-
 
 root.mainloop()
