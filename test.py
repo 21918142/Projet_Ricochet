@@ -31,9 +31,20 @@ dx = 0
 dy = 0
 cpt = 0
 bot = 0
+high_score = 0
+undocpt = 0
+z, h, w, p = 0, 0, 0, 0
 
 # Listes
-coord_robot = []
+coord_robotb = []
+coord_robotr = []
+coord_robotg = []
+coord_roboty = []
+coord_robot = [coord_robotb, coord_robotr, coord_robotg, coord_roboty]
+coorddeplacement = []
+
+coord_cible = []
+
 bot_color = ['blue', 'red', 'green', 'yellow' ]
 
 # Fonctions
@@ -96,18 +107,26 @@ def show_robots():
     x = int(pos_robot[0][0])
     y = int(pos_robot[0][1])
     blue = canvas.create_oval(x*side+5, y*side+5, x*side+35, y*side+35, fill = "blue")
+    x1, y1, x2, y2 = canvas.coords(blue)
+    coord_robotb.append([x1, y1, x2, y2, 0])
 
     x = int(pos_robot[1][0])
     y = int(pos_robot[1][1])
     red = canvas.create_oval(x*side+5, y*side+5, x*side+35, y*side+35, fill = "red")
+    u1, v1, u2, v2 = canvas.coords(red)
+    coord_robotr.append([u1, v1, u2, v2, 1])
 
     x = int(pos_robot[2][0])
     y = int(pos_robot[2][1])
     green = canvas.create_oval(x*side+5, y*side+5, x*side+35, y*side+35, fill = "green")
+    i1, j1, i2, j2 = canvas.coords(green)
+    coord_robotg.append([i1, j1, i2, j2, 2])
 
     x = int(pos_robot[3][0])
     y = int(pos_robot[3][1])
     yellow = canvas.create_oval(x*side+5, y*side+5, x*side+35, y*side+35, fill = "yellow")
+    n1, m1, n2, m2 = canvas.coords(yellow)
+    coord_roboty.append([n1, m1, n2, m2, 3])
 
     robots.append(blue)
     robots.append(red)
@@ -118,16 +137,25 @@ def show_target():
     """Affiche les quatres cibles"""
     x = int(target[0])
     y = int(target[1])
-    target_b = canvas.create_rectangle(x*side+10, y*side+10, x*side+30, y*side+30, fill="blue")  
+    target_b = canvas.create_rectangle(x*side+10, y*side+10, x*side+30, y*side+30, fill="#0000CC")  
     x = int(pos_robot[0][0])+2
     y = int(pos_robot[0][1])+1
-    target_r = canvas.create_rectangle(x*side+10, y*side+10, x*side+30, y*side+30, fill="red")
+    target_r = canvas.create_rectangle(x*side+10, y*side+10, x*side+30, y*side+30, fill="#FF0033")
     x = int(pos_robot[0][0])
     y = int(pos_robot[0][1])-10
-    target_y = canvas.create_rectangle(x*side+10, y*side+10, x*side+30, y*side+30, fill="yellow")
+    target_y = canvas.create_rectangle(x*side+10, y*side+10, x*side+30, y*side+30, fill="#FFFF33")
     x = int(pos_robot[0][0])+9
     y = int(pos_robot[0][1])-10
-    target_g = canvas.create_rectangle(x*side+10, y*side+10, x*side+30, y*side+30, fill="green")
+    target_g = canvas.create_rectangle(x*side+10, y*side+10, x*side+30, y*side+30, fill="#009933")
+
+    x1, y1, x2 ,y2 = canvas.coords(target_b)
+    coord_cible.append([x1, y1, x2, y2])
+    u1, v1, u2 ,v2 = canvas.coords(target_r)
+    coord_cible.append([u1, v1, u2, v2])
+    i1, j1, i2 ,j2 = canvas.coords(target_g)
+    coord_cible.append([i1, j1, i2, j2])
+    n1, m1, n2 ,m2 = canvas.coords(target_y)
+    coord_cible.append([n1, m1, n2, m2])
 
     pos_target.append(target_b)
     pos_target.append(target_r)
@@ -141,15 +169,18 @@ def stop(robot,stop_x,stop_y):
     return robot, stop_x, stop_y
 
 def collision_blue():
+    global undocpt
     global cpt
     coord = canvas.coords(robots[0])
     b = canvas.coords(pos_target[0])
     if coord[0]//40 == b[0]//40 and coord[1]//40 == b[1]//40:
-        canvas.delete(pos_target[0])
+        canvas.coords(pos_target[0], 16*side+10, 4*side+10, 16*side+30, 4*side+30)
         win()
         continues()
+
         cpt =0
-        pos_target[0]= canvas.create_rectangle(16*side+10, 4*side+10, 16*side+30, 4*side+30, fill="blue") 
+        undocpt = 0
+        cpt_move.config(text="Move = "+ str(cpt))   
 
     c = canvas.find_overlapping(*coord)   
     for id in c:
@@ -161,21 +192,26 @@ def move_blue():
     global dx,dy,stop_move_b
     canvas.move(robots[0], dx, dy)
     stop_move_b = canvas.after(1, move_blue)
+
     if collision_blue():
         stop(robots[0], -dx, -dy)
         dx=0
         dy=0
+        stockage_coord()
 
 def collision_red():
+    global undocpt
     global cpt
     coord = canvas.coords(robots[1])
     r = canvas.coords(pos_target[1])
     if coord[0]//40 == r[0]//40 and coord[1]//40 == r[1]//40:
-        canvas.delete(pos_target[1])
+        canvas.coords(pos_target[1], 17*side+10, 4*side+10, 17*side+30, 4*side+30)
         win()
         continues()
+
         cpt = 0
-        pos_target[1]= canvas.create_rectangle(17*side+10, 4*side+10, 17*side+30, 4*side+30, fill="red")
+        undoctp = 0
+        cpt_move.config(text="Move = "+ str(cpt))
 
     c = canvas.find_overlapping(*coord)   
     for id in c:
@@ -184,25 +220,32 @@ def collision_red():
             return True
 
 def move_red():
+   
     global dx,dy,stop_move_r
     canvas.move(robots[1], dx, dy)
     stop_move_r = canvas.after(1, move_red)
+    
     if collision_red():
         stop(robots[1], -dx, -dy)
         dx=0
         dy=0
+        stockage_coord()
 
 def collision_green():
+    global undocpt
     global cpt
     coord = canvas.coords(robots[2])
     g = canvas.coords(pos_target[2])
     if coord[0]//40 == g[0]//40 and coord[1]//40 == g[1]//40:
-        canvas.delete(pos_target[2])
+        canvas.coords(pos_target[2], 18*side+10, 4*side+10, 18*side+30, 4*side+30)
+
         win()
         continues()
+        
         cpt = 0
-        pos_target[2]= canvas.create_rectangle(18*side+10, 4*side+10, 18*side+30, 4*side+30, fill="green")
-
+        undocpt = 0
+        cpt_move.config(text="Move = "+ str(cpt))
+        
     c = canvas.find_overlapping(*coord)   
     for id in c:
         color = canvas.itemcget(id, "fill")
@@ -210,6 +253,7 @@ def collision_green():
             return True
 
 def move_green():
+
     global dx,dy, stop_move_g
     canvas.move(robots[2], dx, dy)
     stop_move_g = canvas.after(1, move_green)
@@ -217,18 +261,24 @@ def move_green():
         stop(robots[2], -dx, -dy)
         dx=0
         dy=0
+        stockage_coord()
 
 def collision_yellow():
+    global undocpt
     global cpt
+
     coord = canvas.coords(robots[3])
     y = canvas.coords(pos_target[3])
     if coord[0]//40 == y[0]//40 and coord[1]//40 == y[1]//40:
-        canvas.delete(pos_target[3])
+        canvas.coords(pos_target[3], 19*side+10, 4*side+10, 19*side+30, 4*side+30) 
+
         win()
         continues()
+        
         cpt = 0
-        pos_target[3]= canvas.create_rectangle(19*side+10, 4*side+10, 19*side+30, 4*side+30, fill="yellow")
-
+        undocpt = 0
+        cpt_move.config(text="Move = "+ str(cpt))
+        
     c = canvas.find_overlapping(*coord)   
     for id in c:
         color = canvas.itemcget(id, "fill")
@@ -236,18 +286,21 @@ def collision_yellow():
             return True
 
 def move_yellow():
+
     global dx,dy, stop_move_y
     canvas.move(robots[3], dx, dy)
     stop_move_y = canvas.after(1, move_yellow)
+
     if collision_yellow():
         stop(robots[3], -dx, -dy)
         dx=0
         dy=0
+        stockage_coord()
 
 def click(event):
-    global get_pos, bot
+    global get_pos, bot, z, h, w, p
     """Permet d'effectuer le deplacement d'un robot quand on clique dessus et
-       restart quand on clique sur le carré au milieu"""
+       recommencer la partie quand on clique sur le carré au milieu"""
     get_pos = (event.x//40, event.y//40)
     x1,y1,x2,y2 = canvas.coords(robots[0])
     u1,v1,u2,v2 = canvas.coords(robots[1])
@@ -256,66 +309,82 @@ def click(event):
 
     if get_pos == (x1//40, y1//40):
         move_blue()
-        canvas.after_cancel(stop_move_r)
-        canvas.after_cancel(stop_move_g)
-        canvas.after_cancel(stop_move_y)
-        bot = 0
+        z = 1
+        if h == 1:
+            canvas.after_cancel(stop_move_r)
+        if w == 1:
+            canvas.after_cancel(stop_move_g)
+        if p == 1:
+            canvas.after_cancel(stop_move_y)
 
-    elif get_pos == (u1//40, v1//40):
+    if get_pos == (u1//40, v1//40):
         move_red()
-        canvas.after_cancel(stop_move_b)
-        canvas.after_cancel(stop_move_g)
-        canvas.after_cancel(stop_move_y)
-        bot = 1
-
-    elif get_pos == (i1//40, j1//40):
+        h = 1
+        if z == 1:
+            canvas.after_cancel(stop_move_b)
+        if w == 1:
+            canvas.after_cancel(stop_move_g)
+        if p == 1:
+            canvas.after_cancel(stop_move_y)
+    
+    if get_pos == (i1//40, j1//40):
         move_green()
-        canvas.after_cancel(stop_move_b)
-        canvas.after_cancel(stop_move_r)
-        canvas.after_cancel(stop_move_y)
-        bot = 2
-        
-    elif get_pos == (n1//40, m1//40):
+        w = 1
+        if z == 1:
+            canvas.after_cancel(stop_move_b)
+        if h == 1:
+            canvas.after_cancel(stop_move_r)
+        if p == 1:
+            canvas.after_cancel(stop_move_y)
+    
+    if get_pos == (n1//40, m1//40):
         move_yellow()
-        canvas.after_cancel(stop_move_b)
-        canvas.after_cancel(stop_move_r)
-        canvas.after_cancel(stop_move_g)
-        bot = 3
-  
+        p = 1
+        if z == 1:
+            canvas.after_cancel(stop_move_b)
+        if h == 1:
+            canvas.after_cancel(stop_move_r)
+        if w == 1:
+            canvas.after_cancel(stop_move_g)
+    
+    elif 280 < event.x < 360 and 280 < event.y < 360:
+        recommencer()
+
+
 def keyboard(event):
-    global dx, dy, cpt
+    global dx, dy, cpt, undocpt
     key = event.keysym
     if key == "Up":
-        stockage_coord()
+        
         dx = 0
         dy = -20
         cpt += 1
+        undocpt += 1
         cpt_move.config(text="Move = "+ str(cpt))
+
     elif key == "Down":
-        stockage_coord()
+        
         dx = 0
         dy = 20
         cpt += 1
+        undocpt += 1
         cpt_move.config(text="Move = "+ str(cpt))
+    
     elif key == "Left":
-        stockage_coord()
+        
         dx = -20
         dy = 0
         cpt += 1
-        cpt_move.config(text="Move = "+ str(cpt))
-    elif key == "Right":
-        stockage_coord()
-        dx = 20
-        dy = 0
-        cpt += 1 
+        undocpt += 1
         cpt_move.config(text="Move = "+ str(cpt))
     
-def stockage_coord():
-    '''Stocke les coordonnées du robot'''
-    global a, b, c, d
-    a, b, c, d = canvas.coords(robots[bot])
-    coord_robot.append([a, b, c, d])
-    print(coord_robot)
+    elif key == "Right":
+       
+        dx = 20
+        dy = 0
+        cpt += 1
+        undocpt += 1 
+        cpt_move.config(text="Move = "+ str(cpt))
 
 #------------------------------------ Message ------------------------------------#
 
@@ -327,7 +396,7 @@ def continues():
     """Demande au joueur s'il veut continuer de jouer"""
     message = tkm.askquestion("Félicitation", "Continue de jouer ?")
     if message == "yes":
-        pass # save score
+        pass 
     if message == "no":
         root.destroy()
 
@@ -339,47 +408,85 @@ def rules ():
     fichier.close()
     tk.Label(root, text=content).grid(padx=5, pady=5)
 
-def save():
-    pass
+def sauvegarde():
+    """Permet de sauvegarder une partie en cours"""
+    fic = open("saverobot", "w")
+    for i in range(4):
+        print(type(pos_target[i]))
+        print(type(robots[i]))
+        fic.write(str(pos_target[i]) + "\n")
+        fic.write(str(robots[i]) + "\n")
 
 def load():
-    pass
+    """Permet de recharger une partie sauvegardée"""
+    fic = open("saverobot", "r")
+    c = 0
+    post = 0
+    rob = 0
+    for ligne in fic:
+        if not c % 2:
+            pos_target[post] = int(ligne)
+            post += 1
+        else :
+            robots[rob] = int(ligne)
+            rob += 1
+        c += 1
+
+def stockage_coord():
+    '''Stocke les coordonnées du robot'''
+    global bot
+
+    a, b, c, d = canvas.coords(robots[bot])
+    coord_robot[bot].append([a, b, c, d, bot])
+    coorddeplacement.append([a, b, c, d, bot])
 
 def undo():
-    """Annule les derniers déplacements du robot"""
-    global robots
-    if canvas.coords(robots[bot]) != coord_robot[0]:
-        if bot == 0:                  
-            canvas.delete(robots[bot])
-            robots[bot] = canvas.create_oval(coord_robot[-1][0], coord_robot[-1][1],
-                    coord_robot[-1][2], coord_robot[-1][3], fill = bot_color[0])
-            coord_robot.remove(coord_robot[-1])
-        elif bot == 1:
-            canvas.delete(robots[bot])
-            robots[bot] = canvas.create_oval(coord_robot[-1][0], coord_robot[-1][1],
-                    coord_robot[-1][2], coord_robot[-1][3], fill = bot_color[1])
-            coord_robot.remove(coord_robot[-1])
-        elif bot == 2:
-            canvas.delete(robots[bot])
-            robots[bot] = canvas.create_oval(coord_robot[-1][0], coord_robot[-1][1],
-                    coord_robot[-1][2], coord_robot[-1][3], fill = bot_color[2])
-            coord_robot.remove(coord_robot[-1])
-        elif bot == 3:
-            canvas.delete(robots[bot])
-            robots[bot] = canvas.create_oval(coord_robot[-1][0], coord_robot[-1][1],
-                    coord_robot[-1][2], coord_robot[-1][3], fill = bot_color[3])
-            coord_robot.remove(coord_robot[-1])
-    else:
-        pass
+    """Permet d'annuler les derniers déplacements du robot"""
+    global undocpt
+    global cpt
 
-def save_score():
-    pass
+    if undocpt > 0:
+        quelbot = coorddeplacement[-1][4]
+        coorddeplacement.remove(coorddeplacement[-1])
+        coord_robot[quelbot].remove(coord_robot[quelbot][-1])
+        canvas.coords(robots[quelbot], coord_robot[quelbot][-1][0], coord_robot[quelbot][-1][1], coord_robot[quelbot][-1][2], coord_robot[quelbot][-1][3])
 
-def show_best_score():
-    pass
+def save_score_b():
+    with open("score_blue.txt", "a") as file_score:
+        file_score.write(str(cpt) + " ")
+                
+def save_score_r():
+    with open("score_red.txt", "a") as file_score:
+        file_score.write(str(cpt) + " ")
 
-def restart():
-    pass
+def save_score_g():
+    with open("score_green.txt", "a") as file_score:
+        file_score.write(str(cpt) + " ")
+
+def save_score_y():
+    with open("score_yellow.txt", "a") as file_score:
+        file_score.write(str(cpt) + " ")
+
+def show_high_score():
+    """Permet d'afficher les meilleurs scores"""
+    global high_score
+    with open("score_blue.txt", "r") as best_score:
+        for scores in best_score:
+            scores_rect = scores.split()
+            high_score = max(scores_rect)
+            print(high_score)
+
+def recommencer():
+    """Permet de redémarrer la partie au début"""
+    cpt = 0
+    
+    cpt_move.config(text="Move = "+ str(cpt))
+    for i in range(4):
+        while len(coord_robot[i]) > 1:
+            coord_robot[i].remove(coord_robot[i][-1])
+        canvas.coords(robots[i], coord_robot[i][0][0], coord_robot[i][0][1], coord_robot[i][0][2], coord_robot[i][0][3])
+    for i in range(4):
+        canvas.coords(pos_target[i], coord_cible[i][0], coord_cible[i][1], coord_cible[i][2], coord_cible[i][3])
 
 #------------------------------------ Programme principal ------------------------------------#
 
@@ -391,8 +498,8 @@ cpt_move = tk.Label(root, padx= 58, pady=5, bd = 8, fg = '#D1D5E0', bg = "black"
 b_undo = tk.Button(root, padx = 58, pady= 5, bd = 8, fg= '#D1D5E0', font = ('consolas', 30), text='Undo', bg = "black", command=undo)
 bttn_rules = tk.Button(root, padx = 58, pady = 5, bd = 8, fg = '#D1D5E0', font = ('consolas', 30), text = 'Rules', bg = "black", command =rules)
 bttn_load = tk.Button(root, padx = 58, pady = 5, bd = 8,fg = '#D1D5E0', font = ('consolas', 30), text = 'Load', bg = "black", command = load)
-bttn_save = tk.Button(root, padx = 58, pady = 5, bd = 8, fg = '#D1D5E0', font = ('consolas', 30), text = 'Save', bg = "black", command = save_score)
-bttn_best_score = tk.Button(root, padx = 58, pady = 5, bd = 8, fg = '#D1D5E0', font = ('consolas', 30), text = 'High Score', bg = "black", command = show_best_score )
+#bttn_save = tk.Button(root, padx = 58, pady = 5, bd = 8, fg = '#D1D5E0', font = ('consolas', 30), text = 'Save', bg = "black", command = save_score)
+#bttn_best_score = tk.Button(root, padx = 58, pady = 5, bd = 8, fg = '#D1D5E0', font = ('consolas', 30), text = 'High Score', bg = "black", command = show_best_score )
 
 
 # Placement des widgets
@@ -401,8 +508,22 @@ cpt_move.grid(column=4, row=0)
 b_undo.grid(column=4, row=1)
 bttn_rules.grid(column =4, row = 2)
 bttn_load.grid(column =4, row = 3)
-bttn_save.grid(column=4, row= 4)
-bttn_best_score.grid(column=4, row=5)
+#bttn_save.grid(column=4, row= 4)
+#bttn_best_score.grid(column=4, row=5)
+
+
+canvas = tk.Canvas(root,height=height, width=850)
+bouton = tk.Button(root, text="save", command=sauvegarde)
+bouton1 = tk.Button(root, text="load", command=load)
+cpt_move = tk.Label(root, text="Move = "+ str(cpt), font=("Marker Felt", 30))
+b_undo = tk.Button(root, text='undo', command=undo, width=10, activebackground="grey")
+
+# Placement des widgets
+canvas.grid(columnspan=4, rowspan=6)
+bouton.grid()
+bouton1.grid()
+cpt_move.grid(column=3, row=0)
+b_undo.grid(column=3, row=1)
 
 
 grid()
@@ -416,3 +537,5 @@ canvas.bind("<1>", click)
 canvas.bind_all("<Key>", keyboard)
 
 root.mainloop()
+
+# Fin du programme
