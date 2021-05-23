@@ -13,6 +13,7 @@
 import tkinter as tk
 from tkinter.constants import BOTH
 import tkinter.messagebox as tkm
+from tkinter.filedialog import askopenfilename
 
 # Constantes
 height = 640
@@ -42,12 +43,12 @@ def grid():
     """Affiche un quadrillage sur le canvas"""
     for i in range(0, height, side):
         for j in range(0, width, side):
-            color = "#B3B191"
-            canvas.create_rectangle(i,j,i+side,j+side,fill=color,activefill="brown")
+            color = "#ABAEB7"
+            canvas.create_rectangle(i,j,i+side,j+side,fill=color,activefill="#D1D5E0")
     for i in range(side*7, side*9, side):
         for j in range(side*7, side*9, side):
             color = "black"
-            canvas.create_rectangle(i,j,i+side,j+side,fill=color,activefill="brown")
+            canvas.create_rectangle(i,j,i+side,j+side,fill=color,activefill="#D1D5E0")
             
 def generate():
     """Affiche walls + pos target + pos robots"""
@@ -331,6 +332,12 @@ def continues():
         root.destroy()
 
 #------------------------------------ Autre ------------------------------------#
+def rules ():
+    regles = askopenfilename(title="rules",filetypes=[('txt files','.txt'),('all files','.*')])
+    fichier = open(regles, "r")
+    content = fichier.read()
+    fichier.close()
+    tk.Label(root, text=content).grid(padx=5, pady=5)
 
 def save():
     pass
@@ -379,16 +386,24 @@ def restart():
 root = tk.Tk()
 
 # Creation des widgets
-canvas = tk.Canvas(root,height=height, width=850)
-bouton = tk.Button(root, text="Génération terrain")
-cpt_move = tk.Label(root, text="Move = "+ str(cpt), font=("Marker Felt", 30))
-b_undo = tk.Button(root, text='undo', command=undo, width=10, activebackground="grey")
+canvas = tk.Canvas(root,height=height, width=640)
+cpt_move = tk.Label(root, padx= 58, pady=5, bd = 8, fg = '#D1D5E0', bg = "black", font = ('consolas', 30), text="Move = "+ str(cpt), )
+b_undo = tk.Button(root, padx = 58, pady= 5, bd = 8, fg= '#D1D5E0', font = ('consolas', 30), text='Undo', bg = "black", command=undo)
+bttn_rules = tk.Button(root, padx = 58, pady = 5, bd = 8, fg = '#D1D5E0', font = ('consolas', 30), text = 'Rules', bg = "black", command =rules)
+bttn_load = tk.Button(root, padx = 58, pady = 5, bd = 8,fg = '#D1D5E0', font = ('consolas', 30), text = 'Load', bg = "black", command = load)
+bttn_save = tk.Button(root, padx = 58, pady = 5, bd = 8, fg = '#D1D5E0', font = ('consolas', 30), text = 'Save', bg = "black", command = save_score)
+bttn_best_score = tk.Button(root, padx = 58, pady = 5, bd = 8, fg = '#D1D5E0', font = ('consolas', 30), text = 'High Score', bg = "black", command = show_best_score )
+
 
 # Placement des widgets
 canvas.grid(columnspan=4, rowspan=6)
-bouton.grid()
-cpt_move.grid(column=3, row=0)
-b_undo.grid(column=3, row=1)
+cpt_move.grid(column=4, row=0)
+b_undo.grid(column=4, row=1)
+bttn_rules.grid(column =4, row = 2)
+bttn_load.grid(column =4, row = 3)
+bttn_save.grid(column=4, row= 4)
+bttn_best_score.grid(column=4, row=5)
+
 
 grid()
 generate()
