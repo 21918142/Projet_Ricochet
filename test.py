@@ -50,12 +50,12 @@ def grid():
     """Affiche un quadrillage sur le canvas"""
     for i in range(0, height, side):
         for j in range(0, width, side):
-            color = "#ABAEB7"
-            canvas.create_rectangle(i,j,i+side,j+side,fill=color,activefill="#D1D5E0")
+            color = "#D0CFD5"
+            canvas.create_rectangle(i,j,i+side,j+side,fill=color,activefill="#928A99")
     for i in range(side*7, side*9, side):
         for j in range(side*7, side*9, side):
             color = "black"
-            canvas.create_rectangle(i,j,i+side,j+side,fill=color,activefill="#D1D5E0")
+            canvas.create_rectangle(i,j,i+side,j+side,fill=color,activefill="#928A99")
             
 def generate():
     """Affiche walls + pos target + pos robots"""
@@ -205,7 +205,7 @@ def collision_red():
             return True
 
 def move_red():
-   
+
     global dx,dy,stop_move_r
     canvas.move(robots[1], dx, dy)
     stop_move_r = canvas.after(1, move_red)
@@ -457,12 +457,12 @@ def recommencer():
 root = tk.Tk()
 
 canvas = tk.Canvas(root,height=height, width=640)
-cpt_move = tk.Label(root, padx= 58, pady=5, bd = 8, fg = '#D1D5E0', bg = "black", font = ('consolas', 30), text="Move = "+ str(cpt), )
-b_undo = tk.Button(root, padx = 58, pady= 5, bd = 8, fg= '#D1D5E0', font = ('consolas', 30), text='Undo', bg = "black", command=undo)
-bttn_rules = tk.Button(root, padx = 58, pady = 5, bd = 8, fg = '#D1D5E0', font = ('consolas', 30), text = 'Rules', bg = "black", command =rules)
-bttn_load = tk.Button(root, padx = 58, pady = 5, bd = 8,fg = '#D1D5E0', font = ('consolas', 30), text = 'Load', bg = "black", command = load)
+cpt_move = tk.Label(root, padx= 58, pady=5, bd = 8, fg = '#928A99', bg = "#D0CFD5", font = ('consolas', 30), text="Move = "+ str(cpt), )
+b_undo = tk.Button(root, padx = 58, pady= 5, bd = 8, fg= '#928A99', font = ('consolas', 30), text='Undo', bg = "#D0CFD5", command=undo)
+bttn_rules = tk.Button(root, padx = 58, pady = 5, bd = 8, fg = '#928A99', font = ('consolas', 30), text = 'Rules', bg = "#D0CFD5", command =rules)
+bttn_load = tk.Button(root, padx = 58, pady = 5, bd = 8,fg = '#928A99', font = ('consolas', 30), text = 'Load', bg = "#D0CFD5", command = load)
 #bttn_save = tk.Button(root, padx = 58, pady = 5, bd = 8, fg = '#D1D5E0', font = ('consolas', 30), text = 'Save', bg = "black", command = save_score)
-#bttn_best_score = tk.Button(root, padx = 58, pady = 5, bd = 8, fg = '#D1D5E0', font = ('consolas', 30), text = 'High Score', bg = "black", command = show_high_score )
+bttn_best_score = tk.Button(root, padx = 58, pady = 5, bd = 8, fg = '#928A99', font = ('consolas', 30), text = 'High Score', bg = "#D0CFD5", command = show_high_score )
 
 
 # Placement des widgets
@@ -472,8 +472,8 @@ b_undo.grid(column=4, row=1)
 bttn_rules.grid(column =4, row = 2)
 bttn_load.grid(column =4, row = 3)
 #bttn_save.grid(column=4, row= 4)
-#bttn_best_score.grid(column=4, row=5)
-
+bttn_best_score.grid(column=4, row=5)
+#fonctions boutons 
 grid()
 generate()
 show_robots()
