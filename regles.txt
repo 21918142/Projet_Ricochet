@@ -1,0 +1,6 @@
+Regles du jeu :
+Les regles du jeu sont tres simples, le but est d atteindre la cible en deplacant le robot qui est de la meme couleur en faisant le moins de deplacements possibles. 
+Vous pouvez vous aider des autres robots en les faisant bouger eux aussi. 
+Avant de commencer a jouer, il faut activer un robot en cliquant dessus, c est comme si vous l allumiez. Les murs ainsi que les robots des autres couleurs representent des obstacles. 
+Jouez avec les fleches du clavier tout en sachant que les robots ne peuvent faire que des lignes horizontales ou verticales.
+Une fois que le robot atteint sa cible, vous avez gagne !
