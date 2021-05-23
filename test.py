@@ -13,7 +13,6 @@
 import tkinter as tk
 from tkinter.constants import BOTH
 import tkinter.messagebox as tkm
-from types import MethodWrapperType
 
 # Constantes
 height = 640
@@ -339,14 +338,13 @@ def click(event):
     
     if get_pos == (n1//40, m1//40):
         move_yellow()
-        p == 1
+        p = 1
         if z == 1:
             canvas.after_cancel(stop_move_b)
         if h == 1:
             canvas.after_cancel(stop_move_r)
         if w == 1:
             canvas.after_cancel(stop_move_g)
-
     
     elif 280 < event.x < 360 and 280 < event.y < 360:
         recommencer()
