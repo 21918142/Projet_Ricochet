@@ -526,3 +526,4 @@ canvas.bind_all("<Key>", keyboard)
 root.mainloop()
 
 # Fin du programme
+##########################
