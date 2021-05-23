@@ -286,7 +286,6 @@ def collision_yellow():
             return True
 
 def move_yellow():
-
     global dx,dy, stop_move_y
     canvas.move(robots[3], dx, dy)
     stop_move_y = canvas.after(1, move_yellow)
@@ -499,7 +498,7 @@ b_undo = tk.Button(root, padx = 58, pady= 5, bd = 8, fg= '#D1D5E0', font = ('con
 bttn_rules = tk.Button(root, padx = 58, pady = 5, bd = 8, fg = '#D1D5E0', font = ('consolas', 30), text = 'Rules', bg = "black", command =rules)
 bttn_load = tk.Button(root, padx = 58, pady = 5, bd = 8,fg = '#D1D5E0', font = ('consolas', 30), text = 'Load', bg = "black", command = load)
 #bttn_save = tk.Button(root, padx = 58, pady = 5, bd = 8, fg = '#D1D5E0', font = ('consolas', 30), text = 'Save', bg = "black", command = save_score)
-#bttn_best_score = tk.Button(root, padx = 58, pady = 5, bd = 8, fg = '#D1D5E0', font = ('consolas', 30), text = 'High Score', bg = "black", command = show_best_score )
+#bttn_best_score = tk.Button(root, padx = 58, pady = 5, bd = 8, fg = '#D1D5E0', font = ('consolas', 30), text = 'High Score', bg = "black", command = show_high_score )
 
 
 # Placement des widgets
@@ -512,18 +511,6 @@ bttn_load.grid(column =4, row = 3)
 #bttn_best_score.grid(column=4, row=5)
 
 
-canvas = tk.Canvas(root,height=height, width=850)
-bouton = tk.Button(root, text="save", command=sauvegarde)
-bouton1 = tk.Button(root, text="load", command=load)
-cpt_move = tk.Label(root, text="Move = "+ str(cpt), font=("Marker Felt", 30))
-b_undo = tk.Button(root, text='undo', command=undo, width=10, activebackground="grey")
-
-# Placement des widgets
-canvas.grid(columnspan=4, rowspan=6)
-bouton.grid()
-bouton1.grid()
-cpt_move.grid(column=3, row=0)
-b_undo.grid(column=3, row=1)
 
 
 grid()
