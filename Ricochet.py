@@ -227,6 +227,11 @@ def keyboard(event):
         dx = 20
         dy = 0    
 
+
+
+
+
+
 root = tk.Tk()
 
 
