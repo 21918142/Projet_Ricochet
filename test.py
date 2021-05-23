@@ -507,3 +507,5 @@ canvas.bind("<1>", click)
 canvas.bind_all("<Key>", keyboard)
 
 root.mainloop()
+
+# Fin du programme
