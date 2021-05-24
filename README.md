@@ -6,6 +6,7 @@ Le jeu se déroule sur une grille fermée de 16 * 16 cases avec 4 robots de coul
 
 # Règles globales
 - Le joueur ne peut déplacer les robots qu’en ligne droite, horizontale ou verticale et ce dans quatres directions : droite, gauche, haut et bas.
+- Cela compte pour un déplacement de robot, indépendamment du nombre de cases parcourues.
 - Le joueur ne peut déplacer qu'un seul robot à la fois.
 - Les robots ne s’arrêtent que quand ils rencontrent un obstacle qui est soit un mur soit un autre robot.
 
@@ -16,7 +17,10 @@ Le jeu se déroule sur une grille fermée de 16 * 16 cases avec 4 robots de coul
 ↓  : Down
 
 # Fonctionnalités
-* Bouton "Undo" : permet de revenir en arrière en annulant les derniers déplacements du robot.
+* Possibilité de revenir en arrière en annulant les derniers déplacements du robot.
+* Pouvoir sauvegarder une partie en cours.
+* Pouvoir recharger une partie sauvegardée.
+* Affichage du meilleur score pour chaque robot.
 
 # But du jeu
 - Atteindre la cible de la couleur correspondante à celle du robot.
