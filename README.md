@@ -12,7 +12,7 @@ Le jeu se déroule sur une grille fermée de 16 * 16 cases avec 4 robots de coul
 - Le joueur ne peut déplacer les robots qu’en ligne droite, horizontale ou verticale et ce dans quatres directions : droite, gauche, haut et bas.
 - Cela compte pour un déplacement de robot, indépendamment du nombre de cases parcourues.
 - Le joueur ne peut déplacer qu'un seul robot à la fois.
-- Le joueur doit cliquer sur le robot qu'il souhaite deplacer
+- Le joueur doit cliquer sur le robot qu'il souhaite deplacer.
 - Les robots ne s’arrêtent que quand ils rencontrent un obstacle qui est soit un mur soit un autre robot.
 
 
@@ -25,13 +25,13 @@ Pour l’interface graphique, les principales caractéristiques dans notre progr
 - Un compteur affiche le nombre de déplacements effectués.
 - Quand la cible est atteinte par le robot de la bonne couleur, un message affiche que le jeu est résolu et indique le score (le nombre de déplacements de robots).
 - Pour revenir en arrière:
-Il vous est possible de revenir en arrière grâce au bouton Undo
+Il vous est possible de revenir en arrière grâce au bouton Undo.
 - Nouvelle partie:
-Afin de redémarrer une partie, il suffit de cliquer sur le carré noir du milieu
+Afin de redémarrer une partie, il suffit de cliquer sur le carré noir du milieu.
 - Sauvegarder une partie:
-Il vous est possible de sauvergarder une partie en cours en appuyant directement sur le bouton sauvegarder sur l'interface graphique.
+Il vous est possible de sauvergarder une partie en cours en appuyant directement sur le bouton "save" sur l'interface graphique.
 - Charger une partie:
-Après avoir sauvegardé une partie, vous êtes en mesure de la récupérer et de la continuer grâce ce bouton
+Après avoir sauvegardé une partie, vous êtes en mesure de la récupérer et de la continuer grâce au bouton "load".
 
 
 
