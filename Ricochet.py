@@ -331,26 +331,34 @@ def continues():
 #------------------------------------ Autre ------------------------------------#
 
 def sauvegarde():
-    fic = open("saverobot", "w")
-    for i in range(4):
-        print(type(pos_target[i]))
-        print(type(robots[i]))
-        fic.write(str(pos_target[i]) + "\n")
-        fic.write(str(robots[i]) + "\n")
+    with open("saverobot", "wb") as f:
+        cb = canvas.coords(robots[0])
+        cr = canvas.coords(robots[1])
+        cg = canvas.coords(robots[2])
+        cy = canvas.coords(robots[3])
+        save = [cb,cr,cg,cy]
+        pickle.dump(save, f)
 
 def load():
-    fic = open("saverobot", "r")
-    c = 0
-    post = 0
-    rob = 0
-    for ligne in fic:
-        if not c % 2:
-            pos_target[post] = int(ligne)
-            post += 1
-        else :
-            robots[rob] = int(ligne)
-            rob += 1
-        c += 1
+    global robots
+    with open("saverobot", "rb") as f:
+        save = pickle.load(f)
+
+        bleu = save[0]
+        canvas.delete(robots[0])
+        robots[0] = canvas.create_oval(bleu[0],bleu[1],bleu[2],bleu[3], fill = "blue")
+
+        rouge = save[1]
+        canvas.delete(robots[1])
+        robots[1] = canvas.create_oval(rouge[0],rouge[1],rouge[2],rouge[3], fill="red")
+
+        vert = save[2]
+        canvas.delete(robots[2])
+        robots[2] = canvas.create_oval(vert[0],vert[1],vert[2],vert[3], fill="green")
+
+        jaune = save[3]
+        canvas.delete(robots[3])
+        robots[3] = canvas.create_oval(jaune[0],jaune[1],jaune[2],jaune[3],fill="yellow")
 
 def save_score_b():
     """Sauvegarde du score du robot bleu"""
@@ -473,7 +481,6 @@ generate()
 show_robots()
 show_target()
 show_walls()
-
 
 # Autre
 canvas.bind("<1>", click)
