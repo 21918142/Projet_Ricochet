@@ -10,11 +10,8 @@
 
 # Import des librairies
 import tkinter as tk
-from tkinter.constants import BOTH
 import tkinter.messagebox as tkm
-from tkinter.filedialog import askopenfilename
 import pickle
-from types import MethodWrapperType
 
 # Constantes
 height = 640
@@ -29,14 +26,10 @@ pos_target = []
 pos_robot = []
 robots = []
 dx, dy = 0, 0
-
-
 cpt = 0
 bot = 0
 undocpt = 0
-
 obstacle = []
-
 high_score_b, high_score_r, high_score_g, high_score_y = 0, 0, 0, 0
 
 # Listes
@@ -46,9 +39,7 @@ coord_robotg = []
 coord_roboty = []
 coord_robot = [coord_robotb, coord_robotr, coord_robotg, coord_roboty]
 coorddeplacement = []
-
 coord_cible = []
-
 bot_color = ['blue', 'red', 'green', 'yellow' ]
 
 # Fonctions
@@ -181,6 +172,7 @@ def stop(robot,stop_x,stop_y):
     return robot, stop_x, stop_y
 
 def collision():
+    """ Le robot s'arrete lorsqu'il rencontre un obstacle"""
     global undocpt
     global cpt
     global bot
@@ -330,6 +322,7 @@ def continues():
 
 #------------------------------------ Autre ------------------------------------#
 def sauvegarde():
+    """ Permet de sauvegarde une partie en cours """
     with open("saverobot", "wb") as f:
         cb = canvas.coords(robots[0])
         cr = canvas.coords(robots[1])
@@ -340,11 +333,14 @@ def sauvegarde():
         gt = canvas.coords(pos_target[2])
         yt = canvas.coords(pos_target[3])
 
-        save = [cb,cr,cg,cy,bt,rt,gt,yt]
+
+        save = [cb,cr,cg,cy,bt,rt,gt,yt,cpt]
         pickle.dump(save, f)
         
-
+        
 def load():
+    """ Permet de charger une partie sauvegarder """
+    global cpt
     with open("saverobot", "rb") as f:
         save = pickle.load(f)
 
@@ -356,6 +352,8 @@ def load():
         rb = save[5]
         gb = save[6]
         yb = save[7]
+        ncpt = save[8]
+
 
         canvas.delete(robots[0])
         canvas.delete(robots[1])
@@ -365,6 +363,7 @@ def load():
         canvas.delete(pos_target[1])
         canvas.delete(pos_target[2])
         canvas.delete(pos_target[3])
+        del cpt
 
         robots[0] = canvas.create_oval(bleu[0],bleu[1],bleu[2],bleu[3], fill = "blue")
         robots[1] = canvas.create_oval(rouge[0],rouge[1],rouge[2],rouge[3], fill="red")
@@ -373,8 +372,9 @@ def load():
         pos_target[0] = canvas.create_rectangle(tb[0], tb[1], tb[2], tb[3], fill="blue")  
         pos_target[1] = canvas.create_rectangle(rb[0], rb[1], rb[2], rb[3], fill="red")  
         pos_target[2] = canvas.create_rectangle(gb[0], gb[1], gb[2], gb[3], fill="green")  
-        pos_target[3] = canvas.create_rectangle(yb[0], yb[1], yb[2], yb[3], fill="yellow")                  
-
+        pos_target[3] = canvas.create_rectangle(yb[0], yb[1], yb[2], yb[3], fill="yellow")
+        cpt = ncpt   
+        cpt_move.config(text="Move = "+ str(cpt))   
 
 def save_score_b():
     """Sauvegarde du score du robot bleu"""
@@ -400,22 +400,25 @@ def show_high_score():
     """Permet d'afficher le meilleur score pour chaque robot"""
     global high_score_b, high_score_r, high_score_g, high_score_y 
 
-    with open("score_blue.txt", "r") as best_score:
-        for scores in best_score:
-            scores_rect = scores.split()
-            high_score_b = min(scores_rect)
-    with open("score_red.txt", "r") as best_score:
-        for scores in best_score:
-            scores_rect = scores.split()
-            high_score_r = min(scores_rect)
-    with open("score_green.txt", "r") as best_score:
-        for scores in best_score:
-            scores_rect = scores.split()
-            high_score_g = min(scores_rect)
-    with open("score_blue.txt", "r") as best_score:
-        for scores in best_score:
-            scores_rect = scores.split()
-            high_score_y = min(scores_rect)
+    try:
+        with open("score_blue.txt", "r") as best_score:
+            for scores in best_score:
+                scores_rect = scores.split()
+                high_score_b = min(scores_rect)
+        with open("score_red.txt", "r") as best_score:
+            for scores in best_score:
+                scores_rect = scores.split()
+                high_score_r = min(scores_rect)
+        with open("score_green.txt", "r") as best_score:
+            for scores in best_score:
+                scores_rect = scores.split()
+                high_score_g = min(scores_rect)
+        with open("score_blue.txt", "r") as best_score:
+            for scores in best_score:
+                scores_rect = scores.split()
+                high_score_y = min(scores_rect)
+    except:
+        print("Tu n'as pas fait de score")
 
     root2 = tk.Tk()
     root2.title("High Score")
@@ -462,14 +465,6 @@ def recommencer():
     for i in range(4):
         canvas.coords(pos_target[i], coord_cible[i][0], coord_cible[i][1], coord_cible[i][2], coord_cible[i][3])
 
-def rules():
-    """Permet de charger les règles du jeu"""
-    regles = askopenfilename(title="rules",filetypes=[('txt files','.txt'),('all files','.*')])
-    fichier = open(regles, "r")
-    content = fichier.read()
-    fichier.close()
-    tk.Label(root, text=content).grid(padx=5, pady=5)
-
 #------------------------------------ Programme principal ------------------------------------#
 
 root = tk.Tk()
@@ -482,7 +477,6 @@ bouton_undo = tk.Button(root, text='Undo', command=undo, width=15, height=3, act
 bouton_save = tk.Button(root, text='Save', command=sauvegarde, width=15, height=3, activebackground="grey", relief='raised', borderwidth=6)
 bouton_load = tk.Button(root, text='Load', command=load, width=15, height=3, activebackground="grey", relief='raised', borderwidth=6)
 bouton_b_score = tk.Button(root, text = 'High Score', command =show_high_score, width=15, height=3, activebackground="grey", relief='raised', borderwidth=6)
-bouton_rules = tk.Button(root, text = 'Rules', command =rules, width=15, height=3, activebackground="grey", relief='raised', borderwidth=6)
 
 # Placement des widgets
 canvas.grid(columnspan=4, rowspan=6)
@@ -491,7 +485,7 @@ bouton_undo.grid(column=3, row=1)
 bouton_save.grid(column=3, row=2)
 bouton_load.grid(column=3, row=3)
 bouton_b_score.grid(column=3, row=4)
-bouton_rules.grid(column =1, row = 5)
+
 
 grid()
 generate()
