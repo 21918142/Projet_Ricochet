@@ -358,39 +358,42 @@ def sauvegarde():
 def load():
     """ Permet de charger une partie sauvegarder """
     global cpt
-    with open("saverobot", "rb") as f:
-        save = pickle.load(f)
+    try:
+        with open("saverobot", "rb") as f:
+            save = pickle.load(f)
 
-        bleu = save[0]
-        rouge = save[1]
-        vert = save[2]
-        jaune = save[3]
-        tb = save[4]
-        rb = save[5]
-        gb = save[6]
-        yb = save[7]
-        ncpt = save[8]
+            bleu = save[0]
+            rouge = save[1]
+            vert = save[2]
+            jaune = save[3]
+            tb = save[4]
+            rb = save[5]
+            gb = save[6]
+            yb = save[7]
+            ncpt = save[8]
 
-        canvas.delete(robots[0])
-        canvas.delete(robots[1])
-        canvas.delete(robots[2])
-        canvas.delete(robots[3])
-        canvas.delete(pos_target[0])
-        canvas.delete(pos_target[1])
-        canvas.delete(pos_target[2])
-        canvas.delete(pos_target[3])
-        del cpt
+            canvas.delete(robots[0])
+            canvas.delete(robots[1])
+            canvas.delete(robots[2])
+            canvas.delete(robots[3])
+            canvas.delete(pos_target[0])
+            canvas.delete(pos_target[1])
+            canvas.delete(pos_target[2])
+            canvas.delete(pos_target[3])
+            del cpt
 
-        robots[0] = canvas.create_oval(bleu[0], bleu[1], bleu[2], bleu[3], fill="blue")
-        robots[1] = canvas.create_oval(rouge[0], rouge[1], rouge[2], rouge[3], fill="red")
-        robots[2] = canvas.create_oval(vert[0], vert[1], vert[2], vert[3], fill="green")
-        robots[3] = canvas.create_oval(jaune[0], jaune[1], jaune[2], jaune[3], fill="yellow")
-        pos_target[0] = canvas.create_rectangle(tb[0], tb[1], tb[2], tb[3], fill="blue")
-        pos_target[1] = canvas.create_rectangle(rb[0], rb[1], rb[2], rb[3], fill="red")
-        pos_target[2] = canvas.create_rectangle(gb[0], gb[1], gb[2], gb[3], fill="green")
-        pos_target[3] = canvas.create_rectangle(yb[0], yb[1], yb[2], yb[3], fill="yellow")
-        cpt = ncpt
-        cpt_move.config(text="Move = " + str(cpt))
+            robots[0] = canvas.create_oval(bleu[0], bleu[1], bleu[2], bleu[3], fill="blue")
+            robots[1] = canvas.create_oval(rouge[0], rouge[1], rouge[2], rouge[3], fill="red")
+            robots[2] = canvas.create_oval(vert[0], vert[1], vert[2], vert[3], fill="green")
+            robots[3] = canvas.create_oval(jaune[0], jaune[1], jaune[2], jaune[3], fill="yellow")
+            pos_target[0] = canvas.create_rectangle(tb[0], tb[1], tb[2], tb[3], fill="blue")
+            pos_target[1] = canvas.create_rectangle(rb[0], rb[1], rb[2], rb[3], fill="red")
+            pos_target[2] = canvas.create_rectangle(gb[0], gb[1], gb[2], gb[3], fill="green")
+            pos_target[3] = canvas.create_rectangle(yb[0], yb[1], yb[2], yb[3], fill="yellow")
+            cpt = ncpt
+            cpt_move.config(text="Move = " + str(cpt))
+    except:
+        tkm.showerror("Erreur","Tu n'as pas encore fait de sauvegarde partie")
 
 
 def save_score_b():
