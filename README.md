@@ -3,7 +3,7 @@ Projet de programmation du jeu de plateau "Robot Ricochet" dans sa version à un
 
 # Exécution 
 - Clonage à partir du lien de github:
-[](https://github.com/21918142/Projet_Ricochet.git)
+[https://github.com/21918142/Projet_Ricochet.git]
 
 # Description du jeu
 Le jeu se déroule sur une grille fermée de 16 * 16 cases avec 4 robots de couleurs différentes : bleu, vert, jaune, rouge; un ensemble d'obstacles : murs; et une cible en forme de carré dans une case de la grille qui doit être atteinte par le robot de la même couleur afin de résoudre le jeu.
